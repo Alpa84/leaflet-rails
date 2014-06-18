@@ -22,14 +22,19 @@ module Leaflet
           end
         end
       end
-
       if options[:circles]
         options[:circles].each do |circle|
           output << "L.circle(['#{circle[:latlng][0]}', '#{circle[:latlng][1]}'], #{circle[:radius]}, {
-           color: '#{circle[:color]}',
-           fillColor: '#{circle[:fillColor]}',
-           fillOpacity: #{circle[:fillOpacity]}
-        }).addTo(map);"
+            color: '#{circle[:color]}',
+            fillColor: '#{circle[:fillColor]}',
+            fillOpacity: #{circle[:fillOpacity]}
+            }"
+          if circle[:popup]
+             output.last << ").bindPopup(String('#{circle[:popup]}'))"
+          else
+            output.last << ")"
+          end
+          output.last << '.addTo(map);'
         end
       end
 
